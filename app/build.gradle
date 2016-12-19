@@ -1,29 +1,81 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.1"
+
     defaultConfig {
-        applicationId "com.grab.quickdemo"
-        minSdkVersion 16
+        applicationId "com.oneous.currencyconverter"
+        minSdkVersion 9
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.oneous.currencyconverter.TestAppAndroidJUnitRunner"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs = ['src/androidTest/java', 'src/sharedTest/java']
+        test.java.srcDirs = ['src/test/java', 'src/sharedTest/java']
+    }
+
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        debug
+        release
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    testCompile 'junit:junit:4.12'
+//noinspection GroovyAssignabilityCheck
+configurations.all {
+    resolutionStrategy.force deps.supportannotations
 }
+
+dependencies {
+    // Support
+    compile deps.appcompat
+
+    // RxJava
+    compile deps.rxjava
+    compile deps.rxandroid
+
+    // ButterKnife
+    compile deps.butterknife
+    annotationProcessor deps.butterknifecompiler
+
+    // Dagger
+    compile deps.dagger
+    annotationProcessor deps.daggercompiler
+    androidTestAnnotationProcessor deps.daggercompiler
+
+    // AutoValue / PaperParcel
+    provided deps.autovalue
+    annotationProcessor deps.autovalue
+    compile deps.paperparcel
+    annotationProcessor deps.paperparcelcompiler
+
+    // Unit
+    testCompile deps.junit
+    testCompile deps.robolectric
+    testCompile deps.mockito
+
+    // Integration
+
+    androidTestCompile deps.testrunner
+    androidTestCompile deps.testrules
+    androidTestCompile deps.espresso
+    androidTestCompile deps.mockito
+    androidTestCompile deps.dexmaker
+    androidTestCompile deps.dexmakermockito
+
+    compile 'com.android.volley:volley:1.0.0'
+}
+

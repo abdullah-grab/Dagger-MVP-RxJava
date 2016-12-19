@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">QuickDemo</string>
+    <string name="app_name">Currency Conversion</string>
+    <string name="convert">Convert</string>
+    <string name="clear_memory_cache">Clear memory cache</string>
+    <string name="clear_memory_and_disk_cache">Clear memory and disk cache</string>
 </resources>

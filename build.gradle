@@ -3,9 +3,11 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -15,9 +17,41 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+ext.deps = [
+    // Android
+    supportannotations: 'com.android.support:support-annotations:25.0.1',
+    appcompat: 'com.android.support:appcompat-v7:25.0.1',
+
+    // RxJava
+    rxjava: 'io.reactivex:rxjava:1.2.3',
+    rxandroid: 'io.reactivex:rxandroid:1.2.1',
+
+    // ButterKnife
+    butterknife: 'com.jakewharton:butterknife:8.4.0',
+    butterknifecompiler: 'com.jakewharton:butterknife-compiler:8.4.0',
+
+    // Dagger
+    dagger: 'com.google.dagger:dagger:2.8',
+    daggercompiler: 'com.google.dagger:dagger-compiler:2.8',
+
+    // AutoValue / PaperParcel
+    autovalue: 'com.google.auto.value:auto-value:1.3',
+    paperparcel: 'nz.bradcampbell:paperparcel:2.0.0-beta1',
+    paperparcelcompiler: 'nz.bradcampbell:paperparcel-compiler:2.0.0-beta1',
+
+    // Unit test dependencies
+    junit: 'junit:junit:4.12',
+    robolectric: 'org.robolectric:robolectric:3.1.4',
+    mockito: 'org.mockito:mockito-core:1.9.5',
+
+    // Integration test dependencies
+    testrunner: 'com.android.support.test:runner:0.3',
+    testrules: 'com.android.support.test:rules:0.3',
+    espresso: 'com.android.support.test.espresso:espresso-core:2.2',
+    dexmaker: 'com.google.dexmaker:dexmaker:1.2',
+    dexmakermockito: 'com.google.dexmaker:dexmaker-mockito:1.2',
+]
